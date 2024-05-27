@@ -2,18 +2,17 @@
   .slider::-webkit-slider-thumb {
     -webkit-appearance: none; /* Override default look */
     appearance: none;
-    width: 15px; /* Set a specific slider handle width */
-    height: 15px; /* Slider handle height */
+    width: 16px; /* Set a specific slider handle width */
+    height: 16px; /* Slider handle height */
     background: #a5609f;
-    border: 1.6px solid currentColor;
     box-sizing: border-box;
     cursor: pointer; /* Cursor on hover */
     border-radius: 100%;
   }
 
   .slider::-moz-range-thumb {
-    width: 15px; /* Set a specific slider handle width */
-    height: 15px; /* Slider handle height */
+    width: 16px; /* Set a specific slider handle width */
+    height: 16px; /* Slider handle height */
     background: currentColor;
     cursor: pointer; /* Cursor on hover */
     border-radius: 100%;
@@ -59,14 +58,14 @@
     });
   }
 </script>
-<div class="w-full bg-black flex items-center p-1 md:p-3">
+<div class="w-full bg-black flex items-center px-1 pb-1 md:p-3">
   <button
     id="playPauseButton"
     class="bg-pink rounded-full flex items-center justify-center shadow-md"
   >
     <svg
       id="playIcon"
-      class="w-8 h-8"
+      class="w-4 h-4 md:w-8 md:h-8"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 21 22"
