@@ -1,7 +1,106 @@
-<iframe
+<!-- <iframe
   src="https://flus.fm/public/flus.fm/embed"
   class="bg-black border-0 w-full h-[40px]"
   allowtransparency="true"
   title="player"
 >
-</iframe>
+</iframe> -->
+<style>
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 15px; /* Set a specific slider handle width */
+    height: 15px; /* Slider handle height */
+    background: #a5609f;
+    border: 2px solid currentColor;
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 100%;
+  }
+
+  .slider::-moz-range-thumb {
+    width: 15px; /* Set a specific slider handle width */
+    height: 15px; /* Slider handle height */
+    background: currentColor;
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 100%;
+  }
+</style>
+<script>
+  const audioPlayer = document.getElementById("audioPlayer");
+  const playPauseButton = document.getElementById("playPauseButton");
+  const playIcon = document.getElementById("playIcon");
+  const pauseIcon = document.getElementById("pauseIcon");
+
+  function togglePlayPause() {
+    if (audioPlayer.paused) {
+      audioPlayer.play();
+      playIcon.classList.add("hidden");
+      pauseIcon.classList.remove("hidden");
+    } else {
+      audioPlayer.pause();
+      playIcon.classList.remove("hidden");
+      pauseIcon.classList.add("hidden");
+    }
+  }
+
+  playPauseButton.addEventListener("click", togglePlayPause);
+
+  function setVolume(value) {
+    audioPlayer.volume = value;
+  }
+
+  // Initialize volume slider appearance for iOS-like design
+  const volumeSlider = document.getElementById("volumeSlider");
+  volumeSlider.style.backgroundSize = `${volumeSlider.value * 100}% 100%`;
+  volumeSlider.addEventListener("input", function () {
+    const input = this as HTMLInputElement;
+    input.style.backgroundSize = `${input.value * 100}% 100%`;
+    audioPlayer.volume = input.value;
+  });
+</script>
+<div class="w-full bg-black flex items-center p-1 md:p-3">
+  <button
+    id="playPauseButton"
+    class="bg-pink rounded-full flex items-center justify-center shadow-md border-2"
+  >
+    <svg
+      id="playIcon"
+      class="w-8 h-8"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 21 22"
+      xmlns="http://www.w3.org/2000/svg"
+      ><path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1"
+        d="M14.752 11.168l-6.504 3.752V7.416l6.504 3.752z"></path></svg
+    >
+    <svg
+      id="pauseIcon"
+      class="w-8 h-8 hidden"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      ><path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M10 9v6m4-6v6"></path></svg
+    >
+  </button>
+  <input
+    id="volumeSlider"
+    type="range"
+    min="0"
+    max="1"
+    step="0.01"
+    value="1"
+    class="mx-3 w-[100px] h-1 rounded outline-none appearance-none bg-pink slider"
+  />
+</div>
+<audio id="audioPlayer">
+  <source src="https://flus.fm/listen/flus.fm/radio.mp3" type="audio/mpeg" />
+  Your browser does not support the audio element.
+</audio>

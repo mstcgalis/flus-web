@@ -2,7 +2,7 @@
 interface Props {
   title: string;
 }
-import Player from "../components/Player.astro";
+import Radio from "../components/Radio.astro";
 import { Image } from "astro:assets";
 import logoImage from "../images/logo.png";
 
@@ -11,53 +11,6 @@ const currentPath = pathname.slice(1); // remove the first "/"
 const { title } = Astro.props;
 ---
 
-<style>
-  .label {
-    border-radius: 0.1rem;
-    padding: 0.1rem 0.2rem;
-    background: #f0f1f4;
-    color: #5b657a;
-    display: inline-block;
-  }
-  .label.label-success {
-    background: #32b643;
-    color: #fff;
-  }
-  .label.label-error {
-    background: #e85600;
-    color: #fff;
-  }
-
-  /* song progress overlay, cross-browser styling of the <progress> element */
-  progress {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    height: 10px;
-    bottom: 0;
-    right: 0;
-    border: none;
-    color: #a5609f;
-    background: #ebebeb; /* Firefox: unfilled portion */
-    font-size: 0.625em;
-  }
-  progress::-moz-progress-bar {
-    background: currentColor; /* Firefox: Filled portion */
-  }
-  progress::-webkit-progress-bar {
-    background: #ebebeb; /* Chrome/Safari: Unfilled portion */
-  }
-  progress::-webkit-progress-value {
-    background: currentColor; /* Chrome/Safari: Filled portion */
-  }
-
-  /* simple progressbar (just a <div>), using width % */
-  .progressbar {
-    height: 10px;
-    background-color: #a5609f;
-    transition: width 2s linear; /* make smoother */
-  }
-</style>
 <header
   class="fixed top-0 left-0 h-fit w-full flex flex-col md:flex-row bg-black text-white"
 >
@@ -99,36 +52,5 @@ const { title } = Astro.props;
       >
     </div>
   </div>
-  <div
-    class="w-full relative flex pb-[10px] md:pb-0 flex-col order-1 md:order-2"
-  >
-    <div class="flex-row flex">
-      <img
-        class="np-flus-fm-song-albumart h-[100px] md:h-[200px] aspect-square"
-        alt="Albumcover"
-        src=""
-      />
-      <div class="flex-col flex justify-between w-full">
-        <div class="text-ellipsis text-left p-1 md:p-3">
-          <strong><span class="np-flus-fm-song-title">Title</span></strong><br
-          />
-          <span class="np-flus-fm-song-artist text-ellipsis">Interpret</span><br
-            class="hidden md:block"
-          /><span class="md:hidden"> |</span>
-          <span class="np-flus-fm-show-name">Show</span>
-          <!-- add some indicators after the show name -->
-          <small
-            ><span class="np-flus-fm-show-islive label label-error">Live</span
-            ></small
-          >
-        </div>
-        <Player />
-      </div>
-    </div>
-    <div class="absolute bottom-[10px] text-xs right-1 text-pink">
-      <span class="np-flus-fm-song-elapsed"></span> /
-      <span class="np-flus-fm-song-duration"></span>
-    </div>
-    <progress class="np-flus-fm-song-progress absolute w-full"></progress>
-  </div>
+  <Radio />
 </header>
