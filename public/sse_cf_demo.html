@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Server-sent events demo (Centrifugo)</title>
+    <!-- style the indicators: -isonline, -islive, isrequest, progress bar -->
+    <style>
+      .label {
+        border-radius: 0.1rem;
+        padding: 0.1rem 0.2rem;
+        background: #f0f1f4;
+        color: #5b657a;
+        display: inline-block;
+      }
+      .label.label-success {
+        background: #32b643;
+        color: #fff;
+      }
+      .label.label-error {
+        background: #e85600;
+        color: #fff;
+      }
+      .text-ellipsis {
+        width: 100%;
+        padding-right: 1rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      /* song progress overlay, cross-browser styling of the <progress> element */
+      progress {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        height: 4px;
+        width: 75px;
+        position: absolute;
+        bottom: 0%;
+        left: 0%;
+        border: none;
+        color: #2196f3;
+        opacity: 0.75;
+        background: #ebebeb; /* Firefox: unfilled portion */
+        font-size: 0.625em;
+      }
+      progress::-moz-progress-bar {
+        background: currentColor; /* Firefox: Filled portion */
+      }
+      progress::-webkit-progress-bar {
+        background: #ebebeb; /* Chrome/Safari: Unfilled portion */
+      }
+      progress::-webkit-progress-value {
+        background: currentColor; /* Chrome/Safari: Filled portion */
+      }
+
+      /* simple progressbar (just a <div>), using width % */
+      .progressbar {
+        height: 4px;
+        background-color: #2196f3;
+        transition: width 1s linear; /* make smoother */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Server-sent events (SSE) demo (Centrifugo)</h1>
+
+    <!-- Some station data -->
+    <h3 class="np-flus-fm-station-description"></h3>
+    <p>
+      Station time: <span class="np-flus-fm-station-time"></span> (Timezone
+      "<span class="np-flus-fm-station-timezone"></span>",
+      <span class="np-flus-fm-station-timediff-hhmm"></span> hours or
+      <span class="np-flus-fm-station-timediff-minutes"></span> minutes time
+      difference)
+    </p>
+
+    <!-- Show time -->
+    <p>
+      Playing at <span class="np-local-time"></span> your time (<span
+        class="np-local-timezone-long"
+      ></span
+      >, <span class="np-local-timezone-short"></span>):
+    </p>
+
+    <!-- Putting it all together: Now Playing box with clickable album art & progress bar -->
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        background: #eee;
+      "
+    >
+      <div style="position: relative">
+        <a
+          class="np-flus-fm-station-player"
+          href="https://example.com"
+          target="_blank"
+          title=""
+          onclick="window.open(this.href,'playerWindow',
+              'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=640,height=360');
+              return false;"
+        >
+          <img
+            class="np-flus-fm-song-albumart"
+            alt="Albumcover"
+            src=""
+            width="75"
+            style="float: left; margin-right: 1em"
+          />
+        </a>
+        <!-- progress bar on top of the image, see CSS styling -->
+        <progress class="np-flus-fm-song-progress"></progress>
+      </div>
+      <div class="text-ellipsis" style="text-align: left">
+        <span class="np-flus-fm-show-name">Show</span>
+        <!-- add some indicators after the show name -->
+        <small
+          ><span class="np-flus-fm-show-islive label label-error">Live</span>
+          <span class="np-flus-fm-song-isrequest label label-success"
+            >Musikwunsch</span
+          ></small
+        ><br />
+        <strong><span class="np-flus-fm-song-title">Titel</span></strong
+        ><br />
+        <span class="np-flus-fm-song-artist">Interpret</span>
+      </div>
+    </div>
+    <!-- a simple full-width progress bar using percent values 0..100% -->
+    <div
+      class="progressbar np-flus-fm-song-progressbar"
+      role="progressbar"
+    ></div>
+
+    <p>
+      The box above shows the <em>album art</em> (click to open a player popup),
+      the <em>show</em> playing (with <em>Live</em> and
+      <em>Song Request</em> indicators), the <em>song title</em> and
+      <em>artist</em>. The <em>show name</em> is either the name of the current
+      <em>playlist</em> playing, <em>»Live: Streamer Name«</em>, or the
+      <em>song request</em> indicator if the current song was a listener
+      request. It will also display the <em>Offline</em> indicator when the
+      station goes offline.
+    </p>
+
+    <p>
+      We also deliver <code>value</code> and <code>max</code> data for a freely
+      stylable <em>playing progress bar</em> using the HTML
+      <code>&lt;progress&gt;</code> element. It is shown here at the bottom of
+      the album cover. Hovering the mouse pointer over it shows elapsed playing
+      time. A simple progressbar using width percentage values can also be had,
+      shown beneath the grey box above.
+    </p>
+
+    <!-- (Re-)using variables in running text. -->
+    <p>
+      The station is <span class="np-flus-fm-station-isonline label"></span> and
+      plays a <span class="np-flus-fm-song-duration"></span> song from
+      <span class="np-flus-fm-song-artist"></span>’s album »<span
+        class="np-flus-fm-song-album"
+      ></span
+      >«.
+    </p>
+
+    <!-- Examples for popup Audio and Video Player links -->
+    <p>
+      Simple <em>links</em> for an
+      <a
+        class="np-flus-fm-station-player"
+        href="https://example.com"
+        target="_blank"
+        title=""
+        onclick="window.open(this.href,'playerWindow',
+          'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=640,height=360');
+          return false;"
+        >audio</a
+      >
+      <a
+        class="np-flus-fm-video-player"
+        href="https://example.com"
+        target="_blank"
+        title=""
+        onclick="window.open(this.href,'playerWindow',
+          'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=640,height=360');
+          return false;"
+        >or video</a
+      >
+      player are also possible. (The video player link only works if your
+      station actually <em>provides</em> a video stream.)
+    </p>
+
+    <!-- Example of using data from multiple stations on the same page -->
+    <p>
+      If your radio has <em>multiple stations</em>, you can show data for the
+      other stations as well:
+    </p>
+    <ul>
+      <!-- Station shortcode: azuratest_radio -->
+      <li>
+        <strong><span class="np-flus-fm-station-name"></span></strong> (<span
+          class="np-flus-fm-station-listeners-total"
+        ></span>
+        listeners): <span class="np-flus-fm-song-text"></span>
+      </li>
+      <!-- Station shortcode: other-station -->
+      <!--
+    <li><strong><span class="np-other-station-station-name"></span></strong>:
+      <span class="np-other-station-song-text"></span></li>
+    -->
+      <!-- Station shortcode: third-station -->
+      <!--
+    <li><strong><span class="np-third-station-station-name"></span></strong>:
+      <span class="np-third-station-song-text"></span></li>
+    --></ul>
+
+    <!-- Some info -->
+    <p>
+      This example uses the <em>AzuraCast Centrifugo Now-Playing</em> API and
+      Server-Sent Events (SSE). Just include Moonbase59’s small
+      <a
+        href="https://gist.github.com/Moonbase59/d42f411e10aff6dc58694699010307aa"
+      >
+        <code>sse_cf.js</code></a
+      >
+      Javascript at the bottom of your HTML <code>&lt;body&gt;</code> and you’re
+      all set. No extra frameworks (like <em>jQuery</em> and the like) required.
+    </p>
+    <p>
+      <em>Note:</em> When using this in a production environment, I recommend
+      using a <em>minifier</em> after testing everything out—it will make the
+      Javascript much smaller and faster to load.
+    </p>
+
+    <!-- Include the JS at the end of the body. No frameqorks like jQuery required. -->
+    <script src="sse_cf.js"></script>
+  </body>
+</html>

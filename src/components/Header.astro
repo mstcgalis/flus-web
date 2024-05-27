@@ -1,4 +1,111 @@
-<header class="fixed top-0 left-0 w-full">
-  <h1 class="text-slate-300 font-mono text-md" >flus.fm</h1>
-  <p class="text-slate-300 font-mono text-sm" >community radio | favu, brno</p>
+---
+interface Props {
+  title: string;
+}
+import Player from "../components/Player.astro";
+
+const { title } = Astro.props;
+---
+
+<style>
+  .label {
+    border-radius: 0.1rem;
+    padding: 0.1rem 0.2rem;
+    background: #f0f1f4;
+    color: #5b657a;
+    display: inline-block;
+  }
+  .label.label-success {
+    background: #32b643;
+    color: #fff;
+  }
+  .label.label-error {
+    background: #e85600;
+    color: #fff;
+  }
+  .text-ellipsis {
+    width: 100%;
+    padding-right: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* song progress overlay, cross-browser styling of the <progress> element */
+  progress {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    height: 8px;
+    width: 100%;
+    bottom: 0%;
+    left: 0%;
+    border: none;
+    color: #a5609f;
+    opacity: 0.75;
+    background: #ebebeb; /* Firefox: unfilled portion */
+    font-size: 0.625em;
+  }
+  progress::-moz-progress-bar {
+    background: currentColor; /* Firefox: Filled portion */
+  }
+  progress::-webkit-progress-bar {
+    background: #ebebeb; /* Chrome/Safari: Unfilled portion */
+  }
+  progress::-webkit-progress-value {
+    background: currentColor; /* Chrome/Safari: Filled portion */
+  }
+
+  /* simple progressbar (just a <div>), using width % */
+  .progressbar {
+    height: 8px;
+    background-color: #a5609f;
+    transition: width 1s linear; /* make smoother */
+  }
+</style>
+<header
+  class="fixed top-0 left-0 h-[200px] w-full flex flex-row bg-black text-white"
+>
+  <div class="w-full flex flex-row border-b-8">
+    <img src="public/img/logo.png" class="h-full w-auto ascpect-square" />
+    <div class="p-3 flex flex-col justify-between">
+      <nav>
+        <ul class="flex flex-col">
+          <li>
+            <a href="/">
+              <h1 class="">flus.fm</h1>
+            </a>
+          </li>
+          <li>
+            <a href="/schedule">schedule</a>
+          </li>
+          <li>
+            <a href="/links">links</a>
+          </li>
+        </ul>
+      </nav>
+      <p class="text-xs">community radio @ favu, brno</p>
+    </div>
+  </div>
+  <div class="w-full h-full flex flex-col">
+    <div class="flex-row flex">
+      <img
+        class="np-flus-fm-song-albumart h-[200px] aspect-square"
+        alt="Albumcover"
+        src=""
+      />
+      <div class="text-ellipsis p-3 text-left">
+        <span class="np-flus-fm-show-name">Show</span>
+        <!-- add some indicators after the show name -->
+        <small
+          ><span class="np-flus-fm-show-islive label label-error">Live</span
+          ></small
+        ><br />
+        <strong><span class="np-flus-fm-song-title">Title</span></strong><br />
+        <span class="np-flus-fm-song-artist">Interpret</span>
+      </div>
+    </div>
+    <!-- progress bar on top of the image, see CSS styling -->
+    <progress class="np-flus-fm-song-progress h-[8px]"></progress>
+  </div>
 </header>

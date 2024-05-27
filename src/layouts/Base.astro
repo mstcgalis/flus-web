@@ -2,7 +2,6 @@
 interface Props {
   title: string;
 }
-import Player from "../components/Player.astro";
 import Header from "../components/Header.astro";
 
 const { title } = Astro.props;
@@ -18,11 +17,11 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body>
-    <Header />
+  <body class="bg-black text-white h-screen">
+    <Header title={title} />
     <main>
       <slot />
     </main>
-    <Player />
+    <script is:inline src="/public/sse_cf.js"></script>
   </body>
 </html>
