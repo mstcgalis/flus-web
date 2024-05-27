@@ -19,37 +19,46 @@
   }
 </style>
 <script>
-  const audioPlayer = document.getElementById("audioPlayer");
+  const audioPlayer = document.getElementById(
+    "audioPlayer"
+  ) as HTMLMediaElement;
   const playPauseButton = document.getElementById("playPauseButton");
   const playIcon = document.getElementById("playIcon");
   const pauseIcon = document.getElementById("pauseIcon");
+  const volumeSlider = document.getElementById("volumeSlider");
 
   function togglePlayPause() {
-    if (audioPlayer.paused) {
-      audioPlayer.play();
-      playIcon.classList.add("hidden");
-      pauseIcon.classList.remove("hidden");
-    } else {
-      audioPlayer.pause();
-      playIcon.classList.remove("hidden");
-      pauseIcon.classList.add("hidden");
+    if (audioPlayer && playIcon && pauseIcon) {
+      if (audioPlayer.paused) {
+        audioPlayer.play();
+        playIcon.classList.add("hidden");
+        pauseIcon.classList.remove("hidden");
+      } else {
+        audioPlayer.pause();
+        playIcon.classList.remove("hidden");
+        pauseIcon.classList.add("hidden");
+      }
+
+      if (playPauseButton) {
+        playPauseButton.addEventListener("click", togglePlayPause);
+      }
+
+      function setVolume(value: number) {
+        audioPlayer.volume = value;
+      }
     }
   }
-
-  playPauseButton.addEventListener("click", togglePlayPause);
-
-  function setVolume(value) {
-    audioPlayer.volume = value;
+  if (volumeSlider) {
+    const volumeSlider = document.getElementById(
+      "volumeSlider"
+    ) as HTMLInputElement;
+    volumeSlider.style.backgroundSize = `${+volumeSlider.value * 100}% 100%`;
+    volumeSlider.addEventListener("input", function () {
+      const input = this as HTMLInputElement;
+      input.style.backgroundSize = `${+input.value * 100}% 100%`;
+      audioPlayer.volume = +input.value;
+    });
   }
-
-  // Initialize volume slider appearance for iOS-like design
-  const volumeSlider = document.getElementById("volumeSlider");
-  volumeSlider.style.backgroundSize = `${volumeSlider.value * 100}% 100%`;
-  volumeSlider.addEventListener("input", function () {
-    const input = this as HTMLInputElement;
-    input.style.backgroundSize = `${input.value * 100}% 100%`;
-    audioPlayer.volume = input.value;
-  });
 </script>
 <div class="w-full bg-black flex items-center p-1 md:p-3">
   <button
