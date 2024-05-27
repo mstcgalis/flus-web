@@ -4,6 +4,7 @@ export default {
   theme: {
     colors: {
       pink: "#A5609F",
+      grey: "#E8E8E8",
     },
     extend: {
       typography: ({ theme }) => ({

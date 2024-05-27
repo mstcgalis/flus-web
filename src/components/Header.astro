@@ -15,7 +15,7 @@ const { title } = Astro.props;
   class="fixed top-0 left-0 h-fit w-full flex flex-col md:flex-row bg-black text-white"
 >
   <div
-    class="w-full flex flex-row border-b-[#E8E8E8] border-b-[10px] order-2 md:order-1"
+    class="w-full flex flex-row border-b-grey border-b-[10px] order-2 md:order-1"
   >
     <Image
       src={logoImage}
@@ -30,7 +30,11 @@ const { title } = Astro.props;
       <nav>
         <ul class="flex flex-col">
           <li>
-            <a class={currentPath === "" ? "font-bold" : ""} href="/">
+            <a
+              class={currentPath === "" ? "font-bold" : ""}
+              href="/"
+              data-astro-prefetch
+            >
               <h1>flus.fm</h1>
             </a>
           </li>
@@ -41,8 +45,10 @@ const { title } = Astro.props;
             >
           </li>
           <li>
-            <a class={currentPath === "links" ? "font-bold" : ""} href="/links"
-              >links</a
+            <a
+              class={currentPath === "links" ? "font-bold" : ""}
+              href="/links"
+              data-astro-prefetch="viewport">links</a
             >
           </li>
         </ul>
