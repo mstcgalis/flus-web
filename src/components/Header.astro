@@ -6,7 +6,7 @@ import Radio from "../components/Radio.astro";
 import { Image } from "astro:assets";
 import logoImage from "../images/logo.png";
 
-const pathname = new URL(Astro.request.url).pathname;
+const pathname = new URL(Astro.url).pathname;
 const currentPath = pathname.slice(1); // remove the first "/"
 const { title } = Astro.props;
 ---
