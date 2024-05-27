@@ -20,6 +20,7 @@ const { title } = Astro.props;
     <Image
       src={logoImage}
       alt="flus.fm logo"
+      loading="eager"
       widths={[100, 200]}
       sizes={`(max-width: 768px) 100px, 200px`}
       class="max-h-[100px] md:min-h-[200px] max-w-[100px] md:min-w-[200px]"
