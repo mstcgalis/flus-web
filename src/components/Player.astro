@@ -5,7 +5,8 @@
     width: 15px; /* Set a specific slider handle width */
     height: 15px; /* Slider handle height */
     background: #a5609f;
-    border: 2px solid currentColor;
+    border: 1.6px solid currentColor;
+    box-sizing: border-box;
     cursor: pointer; /* Cursor on hover */
     border-radius: 100%;
   }
@@ -61,7 +62,7 @@
 <div class="w-full bg-black flex items-center p-1 md:p-3">
   <button
     id="playPauseButton"
-    class="bg-pink rounded-full flex items-center justify-center shadow-md border-2"
+    class="bg-pink rounded-full flex items-center justify-center shadow-md"
   >
     <svg
       id="playIcon"
@@ -73,7 +74,7 @@
       ><path
         stroke-linecap="round"
         stroke-linejoin="round"
-        stroke-width="1"
+        stroke-width="1px"
         d="M14.752 11.168l-6.504 3.752V7.416l6.504 3.752z"></path></svg
     >
     <svg
