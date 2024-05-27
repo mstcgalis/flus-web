@@ -5,6 +5,15 @@ export default {
     colors: {
       pink: "#A5609F",
     },
+    extend: {
+      typography: ({ theme }) => ({
+        pink: {
+          css: {
+            "--tw-prose-bullets": "#A5609F",
+          },
+        },
+      }),
+    },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

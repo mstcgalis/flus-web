@@ -1,14 +1,15 @@
 ---
+import Prose from "../components/Prose.astro";
+import { getEntry } from "astro:content";
+
 import Base from "../layouts/Base.astro";
+
+const entry = await getEntry("articles", "about");
+const { Content } = await entry.render();
 ---
 
 <Base title="flus.fm">
-  <main class="h-full text-pink md:max-w-[50%] max-w-prose p-1 md:p-3">
-    <p class="mb-3">as local as possible. by us for us. public interface.</p>
-    <p>
-      flus.fm is a research platform for experimenting with new forms of sound
-      and music production, distribution and presentation.
-    </p>
-    <p>while exploring the potential of internet radio as a medium.</p>
-  </main>
+  <Prose>
+    <Content />
+  </Prose>
 </Base>
