@@ -462,6 +462,7 @@
         );
         setElement("np-" + ch + "-show-islive", t["Live"], {
           attrib: { style: "display: inline;" },
+          addClasses: ["label", "label-error"],
         });
         setElement(
           "np-" + ch + "-show-name",
