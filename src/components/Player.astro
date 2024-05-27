@@ -28,25 +28,23 @@
   const volumeSlider = document.getElementById("volumeSlider");
 
   function togglePlayPause() {
-    if (audioPlayer && playIcon && pauseIcon) {
-      if (audioPlayer.paused) {
-        audioPlayer.play();
-        playIcon.classList.add("hidden");
-        pauseIcon.classList.remove("hidden");
-      } else {
-        audioPlayer.pause();
-        playIcon.classList.remove("hidden");
-        pauseIcon.classList.add("hidden");
-      }
-
-      if (playPauseButton) {
-        playPauseButton.addEventListener("click", togglePlayPause);
-      }
-
-      function setVolume(value: number) {
-        audioPlayer.volume = value;
-      }
+    if (audioPlayer.paused) {
+      audioPlayer.play();
+      playIcon?.classList.add("hidden");
+      pauseIcon?.classList.remove("hidden");
+    } else {
+      audioPlayer.pause();
+      playIcon?.classList.remove("hidden");
+      pauseIcon?.classList.add("hidden");
     }
+  }
+
+  if (playPauseButton) {
+    playPauseButton.addEventListener("click", togglePlayPause);
+  }
+
+  function setVolume(value: number) {
+    audioPlayer.volume = value;
   }
   if (volumeSlider) {
     const volumeSlider = document.getElementById(
