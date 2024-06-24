@@ -12,7 +12,7 @@ title: "Links"
 - [Instagram](https://instagram.com/favulabel)
 - [Bandcamp](https://favulabel.bandcamp.com/)
 
-# shows
+# podcasts
 
 ## slovem
 
@@ -23,3 +23,5 @@ title: "Links"
 - [Instagram](https://instagram.com/brno_gs)
 - [Apple Podcast](https://podcasts.apple.com/us/podcast/brno-gs/id1726730284)
 - [Spotify](https://open.spotify.com/show/54AqMyNXB2ikRvk7hN9GZV)
+
+# artists
